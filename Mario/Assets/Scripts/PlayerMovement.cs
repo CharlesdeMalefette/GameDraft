@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private new Rigidbody2D rigidbody;
+    
     private new Camera camera;
     private new Collider2D collider;
 
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     private void HorizontalMovement()
     {
         inputAxis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, 2 * moveSpeed * Time.deltaTime);
 
         if(rigidbody.Raycast(Vector2.right * velocity.x)){
             velocity.x = 0f;

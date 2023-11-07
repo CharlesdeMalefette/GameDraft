@@ -47,8 +47,9 @@ public class EntityMovement : MonoBehaviour
         velocity.y += Physics2D.gravity.y * Time.fixedDeltaTime;
 
         rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
-
+        print(direction);
         if (rigidbody.Raycast(direction)) {
+            print("hit a wall!");
             direction = -direction;
         }
 

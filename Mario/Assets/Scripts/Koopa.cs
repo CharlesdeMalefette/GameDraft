@@ -86,5 +86,4 @@ public class Koopa : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 }
