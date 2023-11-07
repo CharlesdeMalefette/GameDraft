@@ -10657,6 +10657,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5750282749597094590, guid: 23aa0102091ed4e7aa8579aaf81458f8, type: 3}
+      propertyPath: maxJumpTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7546882134335447800, guid: 23aa0102091ed4e7aa8579aaf81458f8, type: 3}
       propertyPath: m_Name
       value: Mario
