@@ -18,11 +18,11 @@ public class EntityMovement : MonoBehaviour
 
     private void OnBecameVisible()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         enabled = !EditorApplication.isPaused;
-        #else
+#else
         enabled = true;
-        #endif
+#endif
     }
 
     private void OnBecameInvisible()
@@ -47,19 +47,24 @@ public class EntityMovement : MonoBehaviour
         velocity.y += Physics2D.gravity.y * Time.fixedDeltaTime;
 
         rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
-        print(direction);
-        if (rigidbody.Raycast(direction)) {
+
+        if (rigidbody.Raycast(direction))
+        {
             print("hit a wall!");
             direction = -direction;
         }
 
-        if (rigidbody.Raycast(Vector2.down)) {
+        if (rigidbody.Raycast(Vector2.down))
+        {
             velocity.y = Mathf.Max(velocity.y, 0f);
         }
 
-        if (direction.x > 0f) {
+        if (direction.x > 0f)
+        {
             transform.localEulerAngles = new Vector3(0f, 180f, 0f);
-        } else if (direction.x < 0f) {
+        }
+        else if (direction.x < 0f)
+        {
             transform.localEulerAngles = Vector3.zero;
         }
     }
