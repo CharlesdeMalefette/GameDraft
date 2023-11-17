@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4333382796672849429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6284976446097099896}
+  m_Layer: 7
+  m_Name: BulletPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6284976446097099896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4333382796672849429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.541, y: -0.194, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5052878628058852198}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5052878627249874336
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,10 +44,11 @@ GameObject:
   - component: {fileID: 5052878628058852207}
   - component: {fileID: 5052878628058852204}
   - component: {fileID: 5052878628058852205}
-  - component: {fileID: 5052878628058852202}
   - component: {fileID: 5052878628058852203}
   - component: {fileID: 5052878628058852200}
   - component: {fileID: 5052878628058852201}
+  - component: {fileID: 7067501610341283286}
+  - component: {fileID: 7246682613931529317}
   m_Layer: 7
   m_Name: KoopaBlack
   m_TagString: Untagged
@@ -36,7 +68,8 @@ Transform:
   m_LocalPosition: {x: -125.05696, y: -4.669756, z: -1.354734}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6284976446097099896}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5052878628058852206
@@ -169,20 +202,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0cea1afeb9ec940ac854fde5ee24b31c, type: 3}
   - {fileID: 21300000, guid: ae5c4ce7589704b7e919c322e9dde7fc, type: 3}
   framerate: 0.25
---- !u!114 &5052878628058852202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5052878627249874336}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5888f15a7f4ed440fa2445bee890739d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  direction: {x: -1, y: 0}
 --- !u!114 &5052878628058852203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,3 +275,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5052878628058852204}
   deadSprite: {fileID: 21300000, guid: 2b0bbd1003c284d60841cdbbfe66f4ef, type: 3}
+--- !u!114 &7067501610341283286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052878627249874336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b03580a54fb40518b1d1808a4ecfda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 3309332030101020920, guid: 5dc042e9d01de4a768012cf0406535f3, type: 3}
+  bulletPos: {fileID: 6284976446097099896}
+--- !u!114 &7246682613931529317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5052878627249874336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c163fe8f38c04ef2969b498d93ac05a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
