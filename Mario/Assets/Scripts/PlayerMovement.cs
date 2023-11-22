@@ -7,151 +7,198 @@ public class PlayerMovement : MonoBehaviour
     // Camera
     private new Camera camera;
 
-    // Componetns
+    // Components
     private new Rigidbody2D rigidbody;
-    private new Collider2D collider;
+    private new CapsuleCollider2D collider;
 
-    // Player Characteristics
-    //// Speed and movement
-    public float moveSpeed = 8f;
-    //// Jump
-    public float maxJumpHeight = 5f;
-    public float maxJumpTime = 2f;
-    public float jumpForce => 4f * maxJumpHeight;
-    private float jumpDone;
-    //// Gravity
-    public float gravity => -8f * maxJumpHeight;
+    // Stats
+    [SerializeField] private PlayerStats playerStats;
+
+
+    // public float maxJumpTime = 2f;
+    // public float jumpForce => 4f * maxJumpHeight;
+    // private float jumpDone;
+    // //// Gravity
+    // public float gravity => -8f * maxJumpHeight;
     //// World state
-    public bool grounded { get; private set; }
-    public bool jumping { get; private set; }
-    public bool sliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
-    public bool running => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f;
-    private Vector2 velocity;
+    // public bool grounded { get; private set; }
+    // public bool jumping { get; private set; }
+    // public bool sliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
+    // public bool running => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f;
+    // private Vector2 velocity;
 
-    // Input
-    private float inputAxis;
+    // // Input
+    // private float inputAxis;
 
+    // Events
+    public event Action Jumped;
+    private FrameInput frameInput;
+    private Vector2 frameVelocity;
 
+    private float time;
 
+    private bool cachedQueryStartInColliders;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<Collider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
         camera = Camera.main;
+
+        cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
     }
 
     private void OnEnable()
     {
         collider.enabled = true;
         rigidbody.isKinematic = false;
-        velocity = Vector2.zero;
-        jumping = false;
-        jumpDone = 0f;
     }
 
     private void OnDisable()
     {
         collider.enabled = false;
         rigidbody.isKinematic = false;
-        velocity = Vector2.zero;
-        jumping = false;
-
     }
 
     private void Update()
     {
-        HorizontalMovement();
-        VerticalMovement();
-
-        if (Input.GetButtonDown("Jump"))
-        {
-            Jump();
-        }
-
+        time += Time.deltaTime;
+        GatherInput();
     }
 
-    private void HorizontalMovement()
+    private void GatherInput()
     {
-        inputAxis = Input.GetAxis("Horizontal");
-        velocity.x = Mathf.MoveTowards(velocity.x, inputAxis * moveSpeed, 2 * moveSpeed * Time.deltaTime);
-
-        if (rigidbody.Raycast(Vector2.right * velocity.x))
+        frameInput = new FrameInput
         {
-            velocity.x = 0f;
-        }
+            JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
+            JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+            Move = new Vector2(Mathf.Sign(Input.GetAxisRaw("Horizontal")), Mathf.Sign(Input.GetAxisRaw("Vertical")))
+        };
 
-        if (velocity.x > 0f)
+        if (frameInput.JumpDown)
         {
-            transform.eulerAngles = Vector3.zero;
+            jumpToConsume = true;
+            timeJumpWasPressed = time;
         }
-        else if (velocity.x < 0f)
-        {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f);
-        }
-
-    }
-
-    private void VerticalMovement()
-    {
-        //grounded = rigidbody.Raycast(Vector2.down);
-
-        bool falling = velocity.y < 0f || !Input.GetButton("Jump");
-        float multiplier = falling ? 2f : 1f;
-        velocity.y += multiplier * gravity * Time.deltaTime;
-        velocity.y = Mathf.Max(velocity.y, gravity / 2f);
-        if (rigidbody.Raycast(Vector2.down))
-        {
-            velocity.y = Mathf.Max(velocity.y, 0f);
-            jumping = velocity.y > 0f;
-        }
-    }
-
-    private void Jump()
-    {
-        grounded = rigidbody.Raycast(Vector2.down);
-        if (grounded) { jumpDone = 0; }
-
-        if (jumpDone < maxJumpTime)
-        {
-            jumpDone++;
-            velocity.y = jumpForce;
-            jumping = true;
-            grounded = false;
-        }
-
     }
 
     private void FixedUpdate()
     {
-        Vector2 position = rigidbody.position;
-        position += velocity * Time.fixedDeltaTime;
-
-        Vector2 leftEdge = camera.ScreenToWorldPoint(Vector2.zero);
-        Vector2 rightEdge = camera.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        position.x = Mathf.Clamp(position.x, leftEdge.x + 0.5f, rightEdge.x - 0.5f);
-
-        rigidbody.MovePosition(position);
+        CheckCollisions();
+        HandleJump();
+        HandleDirection();
+        HandleGravity();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    #region Collisions
+
+    private float frameLeftGrounded = float.MinValue;
+    private bool grounded;
+
+    private void CheckCollisions()
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        Physics2D.queriesStartInColliders = false;
+
+        // Ground and Ceiling
+        bool groundHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.down, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
+        bool ceilingHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.up, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
+
+        // Hit a Ceiling
+        if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);
+
+        // Landed on the Ground
+        if (!grounded && groundHit)
         {
-            if (transform.DotTest(collision.transform, Vector2.down))
-            {
-                velocity.y = jumpForce / 2f;
-                jumping = true;
-            }
+            grounded = true;
+            coyoteUsable = true;
+            bufferedJumpUsable = true;
+            endedJumpEarly = false;
+        }
+        // Left the Ground
+        else if (grounded && !groundHit)
+        {
+            grounded = false;
+            frameLeftGrounded = time;
         }
 
-        else if (collision.gameObject.layer != LayerMask.NameToLayer("PowerUp"))
+        Physics2D.queriesStartInColliders = cachedQueryStartInColliders;
+    }
+
+    #endregion
+
+    #region Jumping
+
+    private bool jumpToConsume;
+    private bool bufferedJumpUsable;
+    private bool endedJumpEarly;
+    private bool coyoteUsable;
+    private float timeJumpWasPressed;
+
+    private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + playerStats.JumpBuffer;
+    private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGrounded + playerStats.CoyoteTime;
+
+    private void HandleJump()
+    {
+        if (!endedJumpEarly && !grounded && !frameInput.JumpHeld && rigidbody.velocity.y > 0) endedJumpEarly = true;
+
+        if (!jumpToConsume && !HasBufferedJump) return;
+
+        if (grounded || CanUseCoyote) ExecuteJump();
+
+        jumpToConsume = false;
+    }
+
+    private void ExecuteJump()
+    {
+        endedJumpEarly = false;
+        timeJumpWasPressed = 0;
+        bufferedJumpUsable = false;
+        coyoteUsable = false;
+        frameVelocity.y = playerStats.JumpPower;
+    }
+
+    #endregion
+
+    #region Horizontal
+
+    private void HandleDirection()
+    {
+        if (frameInput.Move.x == 0)
         {
-            if (transform.DotTest(collision.transform, Vector2.up))
-            {
-                velocity.y = 0f;
-            }
+            var deceleration = grounded ? playerStats.GroundDeceleration : playerStats.AirDeceleration;
+            frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
+        else
+        {
+            frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, frameInput.Move.x * playerStats.MaxSpeed, playerStats.Acceleration * Time.fixedDeltaTime);
+        }
+    }
+
+    #endregion
+
+    #region Gravity
+
+    private void HandleGravity()
+    {
+        if (grounded && frameVelocity.y <= 0f)
+        {
+            frameVelocity.y = playerStats.GroundingForce;
+        }
+        else
+        {
+            var inAirGravity = playerStats.FallAcceleration;
+            if (endedJumpEarly && frameVelocity.y > 0) inAirGravity *= playerStats.JumpEndEarlyGravityModifier;
+            frameVelocity.y = Mathf.MoveTowards(frameVelocity.y, -playerStats.MaxFallSpeed, inAirGravity * Time.fixedDeltaTime);
+        }
+    }
+
+    #endregion
+
+    public struct FrameInput
+    {
+        public bool JumpDown;
+        public bool JumpHeld;
+        public Vector2 Move;
     }
 
 }
