@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,21 +15,11 @@ public class PlayerMovement : MonoBehaviour
     // Stats
     [SerializeField] private PlayerStats playerStats;
 
-
-    // public float maxJumpTime = 2f;
-    // public float jumpForce => 4f * maxJumpHeight;
-    // private float jumpDone;
-    // //// Gravity
-    // public float gravity => -8f * maxJumpHeight;
-    //// World state
-    // public bool grounded { get; private set; }
-    // public bool jumping { get; private set; }
-    // public bool sliding => (inputAxis > 0f && velocity.x < 0f) || (inputAxis < 0f && velocity.x > 0f);
-    // public bool running => Mathf.Abs(velocity.x) > 0.25f || Mathf.Abs(inputAxis) > 0.25f;
-    // private Vector2 velocity;
-
-    // // Input
-    // private float inputAxis;
+    // World state
+    public bool grounded { get; private set; }
+    public bool jumping { get; private set; }
+    public bool sliding => (frameInput.Move.x > 0f && frameVelocity.x < 0f) || (frameInput.Move.x < 0f && frameVelocity.x > 0f);
+    public bool running => Mathf.Abs(frameVelocity.x) > 0.25f || Mathf.Abs(frameInput.Move.x) > 0.25f;
 
     // Events
     public event Action Jumped;
@@ -68,12 +59,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void GatherInput()
     {
+
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = horizontalInput != 0 ? Math.Sign(horizontalInput) : 0;
+        verticalInput = verticalInput != 0 ? Math.Sign(verticalInput) : 0;
         frameInput = new FrameInput
         {
             JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
             JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
-            Move = new Vector2(Mathf.Sign(Input.GetAxisRaw("Horizontal")), Mathf.Sign(Input.GetAxisRaw("Vertical")))
+
+            Move = new Vector2(horizontalInput, verticalInput)
         };
+
+        print(Mathf.Sign(Input.GetAxisRaw("Horizontal")));
 
         if (frameInput.JumpDown)
         {
@@ -84,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // print(frameVelocity);
         CheckCollisions();
         HandleJump();
         HandleDirection();
@@ -93,7 +93,6 @@ public class PlayerMovement : MonoBehaviour
     #region Collisions
 
     private float frameLeftGrounded = float.MinValue;
-    private bool grounded;
 
     private void CheckCollisions()
     {

@@ -10738,6 +10738,10 @@ PrefabInstance:
       propertyPath: maxJumpTime
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5750282749597094590, guid: 23aa0102091ed4e7aa8579aaf81458f8, type: 3}
+      propertyPath: playerStats
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b6501c94c1814c69ab9aa008a558caa, type: 2}
     - target: {fileID: 7546882134335447800, guid: 23aa0102091ed4e7aa8579aaf81458f8, type: 3}
       propertyPath: m_Name
       value: Mario
