@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    // Camera
-    private new Camera camera;
-
     // Components
     private new Rigidbody2D rigidbody;
     private new CapsuleCollider2D collider;
@@ -34,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CapsuleCollider2D>();
-        camera = Camera.main;
 
         cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
     }
@@ -72,7 +68,6 @@ public class PlayerMovement : MonoBehaviour
             Move = new Vector2(horizontalInput, verticalInput)
         };
 
-        print(Mathf.Sign(Input.GetAxisRaw("Horizontal")));
 
         if (frameInput.JumpDown)
         {
@@ -83,11 +78,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // print(frameVelocity);
         CheckCollisions();
         HandleJump();
         HandleDirection();
         HandleGravity();
+
+        ApplyMovement();
+    }
+
+    private void ApplyMovement()
+    {
+        rigidbody.velocity = frameVelocity;
     }
 
     #region Collisions
