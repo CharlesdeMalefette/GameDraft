@@ -16,14 +16,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   MaxSpeed: 7
-  Acceleration: 120
-  GroundDeceleration: 60
+  Acceleration: 500
+  GroundDeceleration: 100
   AirDeceleration: 30
   GroundingForce: -1.5
   GrounderDistance: 0.05
-  JumpPower: 25
-  MaxFallSpeed: 40
-  FallAcceleration: 110
+  JumpPower: 20
+  MaxFallSpeed: 20
+  FallAcceleration: 50
   JumpEndEarlyGravityModifier: 3
   CoyoteTime: 0.15
   JumpBuffer: 0.2
+  MaxJumps: 1

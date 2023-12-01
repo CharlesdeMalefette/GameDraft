@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Stats
     [SerializeField] private PlayerStats playerStats;
+    private int jumpsLeft;
 
     // World state
     public bool grounded { get; private set; }
@@ -113,6 +114,7 @@ public class PlayerMovement : MonoBehaviour
             coyoteUsable = true;
             bufferedJumpUsable = true;
             endedJumpEarly = false;
+            jumpsLeft = playerStats.MaxJumps;
         }
         // Left the Ground
         else if (grounded && !groundHit)
@@ -133,7 +135,6 @@ public class PlayerMovement : MonoBehaviour
     private bool endedJumpEarly;
     private bool coyoteUsable;
     private float timeJumpWasPressed;
-    private int jumpsLeftToDo = 0;
 
 
     private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + playerStats.JumpBuffer;
@@ -145,9 +146,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (!jumpToConsume && !HasBufferedJump) return;
 
-        if (grounded || CanUseCoyote) ExecuteJump();
+        if (grounded || CanUseCoyote || (jumpsLeft > 0)) ExecuteJump();
 
-        jumpsLeftToDo++;
+        jumpsLeft--;
 
         jumpToConsume = false;
     }
