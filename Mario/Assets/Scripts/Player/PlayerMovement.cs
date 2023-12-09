@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 
@@ -61,12 +62,15 @@ public class PlayerMovement : MonoBehaviour
         float verticalInput = Input.GetAxisRaw("Vertical");
         horizontalInput = horizontalInput != 0 ? Math.Sign(horizontalInput) : 0;
         verticalInput = verticalInput != 0 ? Math.Sign(verticalInput) : 0;
+
         frameInput = new FrameInput
         {
             JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
             JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
 
-            Move = new Vector2(horizontalInput, verticalInput)
+            Move = new Vector2(horizontalInput, verticalInput),
+
+            interact = Input.GetKeyDown(KeyCode.E)
         };
 
 
@@ -75,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
             jumpToConsume = true;
             timeJumpWasPressed = time;
         }
+
     }
 
     private void FixedUpdate()
@@ -85,6 +90,8 @@ public class PlayerMovement : MonoBehaviour
         HandleGravity();
 
         ApplyMovement();
+
+        Interact();
     }
 
     private void ApplyMovement()
@@ -199,11 +206,30 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    // DEBUG Decide separate script or player input global
+    #region Interaction
+
+    private void Interact()
+    {
+        // DEBUG Interact around and not just front
+        if (frameInput.interact)
+        {
+            RaycastHit2D interactRaycast = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.right, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
+            GameObject interactGameObject = interactRaycast.collider.gameObject;
+            AmmoCrate interactionScript = (AmmoCrate)interactGameObject.GetComponent<MonoBehaviour>();
+            interactionScript.Interact();
+
+        }
+    }
+
+    #endregion
+
     public struct FrameInput
     {
         public bool JumpDown;
         public bool JumpHeld;
         public Vector2 Move;
+        public bool interact;
     }
 
 }

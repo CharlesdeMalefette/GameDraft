@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -9,20 +10,29 @@ public class SideScrolling : MonoBehaviour
     public float height = 6.5f;
     public float undergroundHeight = -9.5f;
     public float undergroundThreshold = 0f;
-    private float initialPosition;
+    public bool absoluteFollow = false;
+
+
+    private float initialPositionX;
 
     private void Awake()
     {
         camera = GetComponent<Camera>();
         player = GameObject.FindWithTag("Player").transform;
-        initialPosition = transform.position.x;
+        initialPositionX = transform.position.x;
     }
 
     private void LateUpdate()
     {
-        // track the player moving to the right
+        // Track the player
+        TrackPlayer();
+    }
+
+    private void TrackPlayer()
+    {
+        //DEBUG double assignation?
         Vector3 cameraPosition = transform.position;
-        cameraPosition.x = Mathf.Max(initialPosition, player.position.x);
+        cameraPosition.x = absoluteFollow ? player.position.x : math.max(player.position.x, initialPositionX);
         transform.position = cameraPosition;
     }
 

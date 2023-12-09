@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class BlockHit : MonoBehaviour
-{   
+{
     public GameObject item;
     public int maxHits = -1;
     public Sprite emptyBlock;
@@ -11,9 +11,9 @@ public class BlockHit : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(!animating && maxHits != 0 && collision.gameObject.CompareTag("Player"))
+        if (!animating && maxHits != 0 && collision.gameObject.CompareTag("Player"))
         {
-            if(collision.transform.DotTest(transform, Vector2.up))
+            if (collision.transform.DotTest(transform, Vector2.up))
             {
                 Hit();
             }
@@ -25,12 +25,13 @@ public class BlockHit : MonoBehaviour
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true;
 
-        maxHits --;
-        if(maxHits == 0){
+        maxHits--;
+        if (maxHits == 0)
+        {
             spriteRenderer.sprite = emptyBlock;
         }
 
-        if(item != null)
+        if (item != null)
         {
             Instantiate(item, transform.position, Quaternion.identity);
         }
@@ -48,7 +49,7 @@ public class BlockHit : MonoBehaviour
 
         yield return Move(restingPosition, animatedPosition);
         yield return Move(animatedPosition, restingPosition);
-        
+
 
         animating = false;
     }
@@ -58,7 +59,7 @@ public class BlockHit : MonoBehaviour
         float elapsed = 0f;
         float duration = 0.125f;
 
-        while(elapsed < duration)
+        while (elapsed < duration)
         {
             float t = elapsed / duration;
             transform.localPosition = Vector3.Lerp(from, to, t);
