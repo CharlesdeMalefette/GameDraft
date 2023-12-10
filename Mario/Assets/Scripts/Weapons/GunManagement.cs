@@ -6,9 +6,6 @@ public class GunManagement : MonoBehaviour
 {
     void Start()
     {
-        // DEBUG Check
-        //GameManager.Instance.AddCoin();
-
         StartCoroutine(Animate());
     }
 

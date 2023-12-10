@@ -14,7 +14,7 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             Collect(other.gameObject);
         }
@@ -22,22 +22,14 @@ public class PowerUp : MonoBehaviour
 
     private void Collect(GameObject player)
     {
-        switch(type)
+        switch (type)
         {
             case Type.Coin:
                 GameManager.Instance.AddCoin();
                 break;
-            
+
             case Type.ExtraLife:
                 GameManager.Instance.AddLife();
-                break;
-
-            case Type.MagicMushroom:
-                player.GetComponent<Player>().Grow();
-                break;
-
-            case Type.Starpower:
-                player.GetComponent<Player>().StarPower();
                 break;
         }
 

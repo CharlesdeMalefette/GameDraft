@@ -6,19 +6,17 @@ public class AmmoCrate : MonoBehaviour
 {
     // Public attributes
     public GameObject item;
-    public bool interactive;
-    //DEBUG debug only mode
 
 
     // Private attributes
-    private bool interact = true;
+    private bool isFull = true;
 
-    public void Interact()
+    public void OpenAmmoCrate()
     {
-        if (interact && item != null)
+        if (isFull && item != null)
         {
             Instantiate(item, transform.position, Quaternion.identity);
-            interact = false;
+            isFull = false;
         }
 
     }

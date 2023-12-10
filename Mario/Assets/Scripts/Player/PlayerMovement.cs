@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    private Player player;
     // Components
     private new Rigidbody2D rigidbody;
     private new CapsuleCollider2D collider;
@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CapsuleCollider2D>();
+        player = GetComponent<Player>();
 
         cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
     }
@@ -65,12 +66,11 @@ public class PlayerMovement : MonoBehaviour
 
         frameInput = new FrameInput
         {
-            JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C),
-            JumpHeld = Input.GetButton("Jump") || Input.GetKey(KeyCode.C),
+            JumpDown = Input.GetButtonDown("Jump"),
+            JumpHeld = Input.GetButton("Jump"),
 
             Move = new Vector2(horizontalInput, verticalInput),
-
-            interact = Input.GetKeyDown(KeyCode.E)
+            Attack = Input.GetKeyDown(KeyCode.C)
         };
 
 
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyMovement();
 
-        Interact();
+        Attack();
     }
 
     private void ApplyMovement()
@@ -206,19 +206,12 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    // DEBUG Decide separate script or player input global
-    #region Interaction
-
-    private void Interact()
+    #region Attack
+    private void Attack()
     {
-        // DEBUG Interact around and not just front
-        if (frameInput.interact)
+        if (frameInput.Attack)
         {
-            RaycastHit2D interactRaycast = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.right, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
-            GameObject interactGameObject = interactRaycast.collider.gameObject;
-            AmmoCrate interactionScript = (AmmoCrate)interactGameObject.GetComponent<MonoBehaviour>();
-            interactionScript.Interact();
-
+            player.weapon.Attack();
         }
     }
 
@@ -229,7 +222,7 @@ public class PlayerMovement : MonoBehaviour
         public bool JumpDown;
         public bool JumpHeld;
         public Vector2 Move;
-        public bool interact;
+        public bool Attack;
     }
 
 }

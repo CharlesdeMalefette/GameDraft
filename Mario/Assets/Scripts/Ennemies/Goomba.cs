@@ -7,28 +7,28 @@ public class Goomba : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();
 
-            if(player.starpower){
-                Hit();}
-            else {
-                if(collision.transform.DotTest(transform, Vector2.down))
-                {
-                    Flatten();
-                }
-                else{
-                    player.Hit();
-                }
+
+            if (collision.transform.DotTest(transform, Vector2.down))
+            {
+                Flatten();
             }
+            else
+            {
+                player.Hit();
+            }
+
         }
 
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Shell")){
+        if (other.gameObject.layer == LayerMask.NameToLayer("Shell"))
+        {
             Hit();
         }
     }

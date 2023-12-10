@@ -3,35 +3,42 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+
+    // Sprites
     public PlayerSpriteRenderer smallRenderer;
     public PlayerSpriteRenderer bigRenderer;
     private PlayerSpriteRenderer activeRenderer;
 
+    // Animation
     private DeathAnimation deathAnimation;
-    private CapsuleCollider2D capsuleCollider;
 
-    public bool big => bigRenderer.enabled;
-    public bool small => smallRenderer.enabled;
+    // Life
+    public float HP = 5;
     public bool dead => deathAnimation.enabled;
-    public bool starpower{get; private set;}
+
+    // Equipment
+    public Weapon weapon;
+
+    // HUD
+    public GameObject interactNotification;
 
     private void Awake()
     {
         deathAnimation = GetComponent<DeathAnimation>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        weapon = transform.Find("PrimaryWeapon").GetComponent<Weapon>();
         activeRenderer = smallRenderer;
+        interactNotification = transform.Find("InteractNotification").gameObject;
     }
-    
+
     public void Hit()
     {
-        if(!dead && !starpower)
+        if (!dead && HP == 0)
         {
-            if(big){
-                Shrink();
-            }
-            else{
-                Death();
-            }
+            Death();
+        }
+        else
+        {
+            HP--;
         }
     }
 
@@ -44,78 +51,12 @@ public class Player : MonoBehaviour
         GameManager.Instance.ResetLevel(3f);
     }
 
-    public void Grow()
+    public void notifyPlayer()
     {
-        smallRenderer.enabled = false;
-        bigRenderer.enabled = true;
-        activeRenderer = bigRenderer;
-
-        capsuleCollider.size = new Vector2(1f, 2f);
-        capsuleCollider.offset = new Vector2(0f, 0.5f);
-
-        StartCoroutine(ScaleAnimation());
+        interactNotification.SetActive(true);
     }
-
-    private void Shrink()
+    public void deNotifyPlayer()
     {
-        smallRenderer.enabled = true;
-        bigRenderer.enabled = false;
-        activeRenderer = smallRenderer;
-
-        capsuleCollider.size = new Vector2(1f, 1f);
-        capsuleCollider.offset = new Vector2(0f, 0f);
-
-        StartCoroutine(ScaleAnimation());
-    }
-
-    private IEnumerator ScaleAnimation()
-    {
-        float elapsed = 0f;
-        float duration = 0.5f;
-
-        while(elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-
-            if(Time.frameCount % 4 == 0)
-            {
-                smallRenderer.enabled = !smallRenderer.enabled;
-                bigRenderer.enabled = !smallRenderer.enabled;
-                
-            }
-
-            yield return null;
-        }
-
-        smallRenderer.enabled = false;
-        bigRenderer.enabled = false;
-        activeRenderer.enabled = true;
-    }
-
-    public void StarPower(float duration = 10f)
-    {
-        StartCoroutine(StarpowerAnimation(duration));
-    }
-
-    private IEnumerator StarpowerAnimation(float duration)
-    {
-        starpower = true;
-
-        float elapsed = 0f;
-        while(elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-
-            if(Time.frameCount % 4 == 0)
-            {
-                activeRenderer.spriteRenderer.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
-            }
-
-            yield return null;
-        }
-        activeRenderer.spriteRenderer.color = Color.white;
-        starpower = false;
-
-
+        interactNotification.SetActive(false);
     }
 }
