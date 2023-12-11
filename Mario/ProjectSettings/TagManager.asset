@@ -47,6 +47,9 @@ TagManager:
   - name: Scene
     uniqueID: 2460580811
     locked: 0
+  - name: Player
+    uniqueID: 3322483949
+    locked: 0
   - name: Foreground1
     uniqueID: 821344975
     locked: 0

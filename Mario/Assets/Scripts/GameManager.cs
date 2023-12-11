@@ -3,20 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set;}
+    public static GameManager Instance { get; private set; }
 
-    public int world {get; private set;}
-    public int stage {get; private set;}
-    public int lives {get; private set;}
-    public int coins {get; private set;}
-    
+    public int world { get; private set; }
+    public int stage { get; private set; }
+    public int lives { get; private set; }
+    public int coins { get; private set; }
+
 
     private void Awake()
     {
-        if(Instance != null){
+        if (Instance != null)
+        {
             DestroyImmediate(gameObject);
         }
-        else{
+        else
+        {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
@@ -24,7 +26,8 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(Instance == this){
+        if (Instance == this)
+        {
             Instance = null;
         }
     }
@@ -64,10 +67,12 @@ public class GameManager : MonoBehaviour
     public void ResetLevel()
     {
         lives--;
-        if(lives > 0){
+        if (lives > 0)
+        {
             LoadLevel(world, stage);
         }
-        else{
+        else
+        {
             GameOver();
         }
     }
@@ -82,7 +87,7 @@ public class GameManager : MonoBehaviour
     {
         coins++;
 
-        if(coins == 100)
+        if (coins == 100)
         {
             AddLife();
             coins = 0;
