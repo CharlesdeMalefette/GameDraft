@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/1-1.unity
     guid: 558dd71202fa84873b1f5d1ea7979b09
+  - enabled: 1
+    path: Assets/Scenes/Charles_workshop.unity
+    guid: 2dc5d52ef4cf04cf4b7a9828df6bd488
   m_configObjects: {}

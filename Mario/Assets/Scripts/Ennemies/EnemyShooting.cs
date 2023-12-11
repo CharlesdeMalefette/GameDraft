@@ -28,7 +28,7 @@ public class EnemyShooting : MonoBehaviour
             if (timer > 2)
             {
                 timer = 0;
-                Shoot();
+                //Shoot();
             }
         }
 
