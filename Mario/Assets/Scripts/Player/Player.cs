@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         deathAnimation = GetComponent<DeathAnimation>();
-        weapon = transform.Find("PrimaryWeapon").GetComponent<Weapon>();
+        //weapon = transform.Find("PrimaryWeapon").GetComponent<Weapon>();
         activeRenderer = smallRenderer;
         interactNotification = transform.Find("InteractNotification").gameObject;
     }

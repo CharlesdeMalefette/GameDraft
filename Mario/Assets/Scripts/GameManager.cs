@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public int coins { get; private set; }
 
 
+
     private void Awake()
     {
         if (Instance != null)
@@ -42,8 +43,12 @@ public class GameManager : MonoBehaviour
     {
         lives = 3;
         coins = 0;
+        // Obtenez le nom de la scène active
+        string nomSceneActive = SceneManager.GetActiveScene().name;
 
-        LoadLevel(1, 1);
+        // Chargez à nouveau la scène active
+        SceneManager.LoadScene(nomSceneActive);
+        //LoadLevel(1, 1);
     }
 
     public void LoadLevel(int world, int stage)
