@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             JumpHeld = Input.GetButton("Jump"),
 
             Move = new Vector2(horizontalInput, verticalInput),
-            Attack = Input.GetKeyDown(KeyCode.C)
+            Attack = Input.GetKey(KeyCode.C)
         };
 
 
@@ -207,11 +207,12 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Attack
+
     private void Attack()
     {
         if (frameInput.Attack)
         {
-            player.weapon.Attack();
+            player.weaponHolder.GetComponent<Weapon>().Attack();
         }
     }
 

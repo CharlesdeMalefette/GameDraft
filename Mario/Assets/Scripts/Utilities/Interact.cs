@@ -9,13 +9,7 @@ public class Interact : MonoBehaviour
     public KeyCode interactKey;
     public UnityEvent interactAction;
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (isInRange)
@@ -33,7 +27,6 @@ public class Interact : MonoBehaviour
         {
             isInRange = true;
             collider.gameObject.GetComponent<Player>().notifyPlayer();
-            Debug.Log("Enter range");
         }
     }
 
@@ -43,7 +36,6 @@ public class Interact : MonoBehaviour
         {
             isInRange = false;
             collider.gameObject.GetComponent<Player>().deNotifyPlayer();
-            Debug.Log("Quit range");
         }
     }
 }

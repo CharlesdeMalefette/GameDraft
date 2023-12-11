@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public bool dead => deathAnimation.enabled;
 
     // Equipment
-    public Weapon weapon;
+    public GameObject weaponHolder;
 
     // HUD
     public GameObject interactNotification;
@@ -25,9 +25,14 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         deathAnimation = GetComponent<DeathAnimation>();
-        weapon = transform.Find("PrimaryWeapon").GetComponent<Weapon>();
+        weaponHolder = transform.Find("WeaponHolder").gameObject;
         activeRenderer = smallRenderer;
         interactNotification = transform.Find("InteractNotification").gameObject;
+    }
+
+    private void Update()
+    {
+        print(weaponHolder);
     }
 
     public void Hit()
@@ -59,4 +64,17 @@ public class Player : MonoBehaviour
     {
         interactNotification.SetActive(false);
     }
+
+    #region equipment
+
+    public void EquipWeapon(GameObject weapon)
+    {
+        print("h");
+        print(weaponHolder);
+        weapon.transform.SetParent(weaponHolder.transform);
+    }
+
+    #endregion
+
+
 }
