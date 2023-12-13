@@ -8,7 +8,7 @@ public class AmmoCrate : MonoBehaviour
     // Public attributes
     public GameObject item;
 
-    public UnityEvent<GameObject> itemPickUp;
+    public UnityEvent itemPickUp;
 
 
     // Private attributes
@@ -18,8 +18,8 @@ public class AmmoCrate : MonoBehaviour
     {
         if (isFull && item != null)
         {
-            GameObject itemToPickUp = Instantiate(item, transform.position, Quaternion.identity);
-            itemPickUp.Invoke(itemToPickUp);
+            Instantiate(item, transform.position, Quaternion.identity);
+            itemPickUp.Invoke();
             isFull = false;
         }
     }

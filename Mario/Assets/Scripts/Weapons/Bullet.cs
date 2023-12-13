@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collider)
     {
+        print("hit smth " + collider.gameObject);
         if (collider.gameObject.CompareTag("Ennemy"))
         {
             collider.gameObject.GetComponent<HealthManagement>().Hit(damage);
