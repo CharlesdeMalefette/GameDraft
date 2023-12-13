@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunManagement : MonoBehaviour
+public class GunAnimation : MonoBehaviour
 {
     void Start()
     {

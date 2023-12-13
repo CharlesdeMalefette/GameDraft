@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7172123769393062699}
   - component: {fileID: 5056040808914427302}
   - component: {fileID: 5085273268062662810}
-  - component: {fileID: 6876390240524836278}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -102,18 +101,6 @@ MonoBehaviour:
   bullet: {fileID: 602710675597699521, guid: 5f68ea2a6153b425d8ae9bf37153b019, type: 3}
   bulletSpeed: 500
   shootPoint: {fileID: 4635466289081723511}
---- !u!114 &6876390240524836278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1966207915017225131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ca7edad3865444797b221bfd820f08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4269834584364716301
 GameObject:
   m_ObjectHideFlags: 0

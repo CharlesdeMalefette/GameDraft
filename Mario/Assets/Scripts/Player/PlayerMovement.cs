@@ -70,7 +70,8 @@ public class PlayerMovement : MonoBehaviour
             JumpHeld = Input.GetButton("Jump"),
 
             Move = new Vector2(horizontalInput, verticalInput),
-            Attack = Input.GetKey(KeyCode.C)
+            Attack = Input.GetKey(KeyCode.C),
+            ChangeWeapon = Input.GetKeyDown(KeyCode.X)
         };
 
 
@@ -92,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         ApplyMovement();
 
         Attack();
+        ChangeWeapon();
     }
 
     private void ApplyMovement()
@@ -206,13 +208,24 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    #region Attack
+    #region Equipement
 
     private void Attack()
     {
         if (frameInput.Attack)
         {
-            player.weaponHolder.GetComponent<Weapon>().Attack();
+            player.Attack();
+        }
+    }
+
+    private void ChangeWeapon()
+    {
+        if (player.ownWeapon)
+        {
+            if (frameInput.ChangeWeapon)
+            {
+                if (player.hasWeaponInHand) { player.DesequipWeapon(); } else { player.EquipWeapon(); }
+            }
         }
     }
 
@@ -224,6 +237,7 @@ public class PlayerMovement : MonoBehaviour
         public bool JumpHeld;
         public Vector2 Move;
         public bool Attack;
+        public bool ChangeWeapon;
     }
 
 }

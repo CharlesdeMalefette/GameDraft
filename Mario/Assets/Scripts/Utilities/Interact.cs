@@ -8,7 +8,12 @@ public class Interact : MonoBehaviour
     public bool isInRange;
     public KeyCode interactKey;
     public UnityEvent interactAction;
+    private bool notifyPlayerOnInteractible;
 
+    void Start()
+    {
+        notifyPlayerOnInteractible = true;
+    }
 
     void Update()
     {
@@ -17,16 +22,20 @@ public class Interact : MonoBehaviour
             if (Input.GetKeyDown(interactKey))
             {
                 interactAction.Invoke();
+                notifyPlayerOnInteractible = false;
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (notifyPlayerOnInteractible)
         {
-            isInRange = true;
-            collider.gameObject.GetComponent<Player>().notifyPlayer();
+            if (collider.gameObject.CompareTag("Player"))
+            {
+                isInRange = true;
+                collider.gameObject.GetComponent<Player>().notifyPlayer();
+            }
         }
     }
 
