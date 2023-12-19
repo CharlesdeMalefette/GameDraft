@@ -4,14 +4,14 @@ using UnityEngine;
 public class PlayerSpriteRenderer : MonoBehaviour
 {
 
-    public SpriteRenderer spriteRenderer {get; private set;}
+    public SpriteRenderer spriteRenderer { get; private set; }
     private PlayerMovement movement;
 
-    public Sprite idle;
+    public AnimatedSprite idle;
     public Sprite jump;
     public AnimatedSprite run;
     public Sprite slide;
-    
+
 
     private void Awake()
     {
@@ -24,7 +24,8 @@ public class PlayerSpriteRenderer : MonoBehaviour
         spriteRenderer.enabled = true;
     }
 
-    private void OnDisable(){
+    private void OnDisable()
+    {
 
         spriteRenderer.enabled = false;
     }
@@ -33,14 +34,19 @@ public class PlayerSpriteRenderer : MonoBehaviour
     {
         run.enabled = movement.running;
 
-        if(movement.jumping){
+
+
+        if (movement.jumping)
+        {
             spriteRenderer.sprite = jump;
-        } 
-        else if(movement.sliding){
-        spriteRenderer.sprite = slide;
         }
-        else if(!movement.running){
-            spriteRenderer.sprite = idle;
+        else if (movement.sliding)
+        {
+            spriteRenderer.sprite = slide;
+        }
+        else if (!movement.running)
+        {
+            idle.enabled = true;
         }
     }
 }
