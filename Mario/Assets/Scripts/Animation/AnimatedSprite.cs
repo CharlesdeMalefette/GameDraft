@@ -8,6 +8,9 @@ public class AnimatedSprite : MonoBehaviour
     public Sprite[] idleSprites;
 
     public Sprite[] jumpSprites;
+    public Sprite[] punchSprites;
+
+    private Animation punchAnimation;
 
     public float framerate = 1f / 6f;
 
@@ -15,10 +18,13 @@ public class AnimatedSprite : MonoBehaviour
 
     private PlayerMovement playerMovement;
     private int frame;
+    private bool isAttacking = false;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerMovement = GetComponent<PlayerMovement>();
+        punchAnimation = GetComponent<Animation>();
 
     }
 
@@ -34,11 +40,27 @@ public class AnimatedSprite : MonoBehaviour
 
     private void Animate()
     {
+
+        if (playerMovement.attack && !isAttacking)
+        {
+            // Set the attacking flag to true to prevent re-triggering the animation
+            isAttacking = true;
+
+            // Play the punch animation
+            //punchAnimator.enabled = true;
+            punchAnimation.Play();
+        }
+
         Sprite[] sprites = idleSprites;
 
-        if (walkSprites.Length > 0)
+        if (playerMovement.running)
         {
             sprites = walkSprites;
+        }
+
+        if (playerMovement.jumping)
+        {
+            sprites = jumpSprites;
         }
 
         frame++;

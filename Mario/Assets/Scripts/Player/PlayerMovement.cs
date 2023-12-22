@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
     // World state
     public bool grounded { get; private set; }
     public bool jumping { get; private set; }
+    public bool attack { get; private set; }
+
+
     public bool sliding => (frameInput.Move.x > 0f && frameVelocity.x < 0f) || (frameInput.Move.x < 0f && frameVelocity.x > 0f);
     public bool running => Mathf.Abs(frameVelocity.x) > 0.25f || Mathf.Abs(frameInput.Move.x) > 0.25f;
 
@@ -212,9 +215,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Attack()
     {
+        attack = false;
         if (frameInput.Attack)
         {
             player.Attack();
+            attack = true;
+
+        }
+        else
+        {
+            attack = false;
         }
     }
 

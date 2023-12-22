@@ -7,8 +7,6 @@ public class Player : MonoBehaviour
 
     // Sprites
     public PlayerSpriteRenderer smallRenderer;
-    public PlayerSpriteRenderer bigRenderer;
-    private PlayerSpriteRenderer activeRenderer;
 
     // Animation
     private DeathAnimation deathAnimation;
@@ -26,12 +24,11 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         deathAnimation = GetComponent<DeathAnimation>();
-        activeRenderer = smallRenderer;
 
         //Equipement & Fight
-        interactNotification = transform.Find("InteractNotification").gameObject;
+        //interactNotification = transform.Find("InteractNotification").gameObject;
         ownWeapon = false;
-        weaponHolder = transform.Find("WeaponHolder").gameObject;
+        //weaponHolder = transform.Find("WeaponHolder").gameObject;
         nextAttackTime = Time.time;
     }
 
@@ -50,7 +47,6 @@ public class Player : MonoBehaviour
     private void Death()
     {
         smallRenderer.enabled = false;
-        bigRenderer.enabled = false;
         deathAnimation.enabled = true;
 
         GameManager.Instance.ResetLevel(3f);
