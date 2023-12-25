@@ -1,4 +1,6 @@
 
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnimatedSprite : MonoBehaviour
@@ -20,11 +22,18 @@ public class AnimatedSprite : MonoBehaviour
     private int frame;
     private bool isAttacking = false;
 
+    int lenAttackCounter = 0;
+
+    private Rigidbody2D _rigidbody;
+
+    private bool flip = false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerMovement = GetComponent<PlayerMovement>();
         punchAnimation = GetComponent<Animation>();
+        _rigidbody = GetComponent<Rigidbody2D>();
 
     }
 
@@ -40,25 +49,38 @@ public class AnimatedSprite : MonoBehaviour
 
     private void Animate()
     {
+        Sprite[] sprites = idleSprites;
 
         if (playerMovement.attack && !isAttacking)
         {
-            // Set the attacking flag to true to prevent re-triggering the animation
             isAttacking = true;
 
-            // Play the punch animation
-            //punchAnimator.enabled = true;
-            punchAnimation.Play();
         }
 
-        Sprite[] sprites = idleSprites;
+        if (isAttacking)
+        {
+            sprites = punchSprites;
+
+            spriteRenderer.sprite = sprites[lenAttackCounter];
+
+            lenAttackCounter += 1;
+
+            if (lenAttackCounter == punchSprites.Length - 1)
+            {
+                isAttacking = false;
+
+                lenAttackCounter = 0;
+            }
+
+        }
 
         if (playerMovement.running)
         {
             sprites = walkSprites;
         }
 
-        if (playerMovement.jumping)
+        print(playerMovement.grounded);
+        if (!playerMovement.grounded)
         {
             sprites = jumpSprites;
         }
@@ -72,6 +94,17 @@ public class AnimatedSprite : MonoBehaviour
         if (frame >= 0 && frame < sprites.Length)
         {
             spriteRenderer.sprite = sprites[frame];
+
+            if (Math.Abs(_rigidbody.velocity.x) < 0.001f)
+            {
+                spriteRenderer.flipX = flip;
+            }
+            else
+            {
+                flip = _rigidbody.velocity.x < 0;
+                spriteRenderer.flipX = flip;
+            }
+
         }
     }
 }

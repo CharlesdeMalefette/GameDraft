@@ -39,22 +39,22 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background1
+  - name: Background
     uniqueID: 2472678447
     locked: 0
-  - name: Background2
+  - name: Building
     uniqueID: 721026057
     locked: 0
-  - name: Scene
+  - name: Trottoir
     uniqueID: 2460580811
     locked: 0
   - name: Player
     uniqueID: 3322483949
     locked: 0
-  - name: Foreground1
+  - name: Street
     uniqueID: 821344975
     locked: 0
-  - name: Foreground2
+  - name: Foreground
     uniqueID: 858394047
     locked: 0
   - name: Default
