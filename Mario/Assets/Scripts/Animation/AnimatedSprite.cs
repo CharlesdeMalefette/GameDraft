@@ -3,22 +3,29 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+[System.Serializable]
+public class SpriteCollection
+{
+    public Sprite[] walk;
+    public Sprite[] idle;
+    public Sprite[] jump;
+    public Sprite[] attack;
+    public Sprite[] crouch;
+}
+
+
 public class AnimatedSprite : MonoBehaviour
 {
-    public Sprite[] walkSprites;
-
-    public Sprite[] idleSprites;
-
-    public Sprite[] jumpSprites;
-    public Sprite[] punchSprites;
-
-    private Animation punchAnimation;
+    public SpriteCollection normalSpriteCollections;
+    public SpriteCollection shootSpriteCollections;
 
     public float framerate = 1f / 6f;
 
     private SpriteRenderer spriteRenderer;
 
     private PlayerMovement playerMovement;
+    private Player player;
     private int frame;
     private bool isAttacking = false;
 
@@ -32,8 +39,8 @@ public class AnimatedSprite : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerMovement = GetComponent<PlayerMovement>();
-        punchAnimation = GetComponent<Animation>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        player = GetComponent<Player>();
 
     }
 
@@ -49,40 +56,26 @@ public class AnimatedSprite : MonoBehaviour
 
     private void Animate()
     {
-        Sprite[] sprites = idleSprites;
+        SpriteCollection spriteCollection = normalSpriteCollections;
 
-        if (playerMovement.attack && !isAttacking)
+        if (player.hasWeaponInHand)
         {
-            isAttacking = true;
-
+            spriteCollection = shootSpriteCollections;
         }
 
-        if (isAttacking)
-        {
-            sprites = punchSprites;
+        Sprite[] sprites = spriteCollection.idle;
 
-            spriteRenderer.sprite = sprites[lenAttackCounter];
+        AttackAnimation(ref sprites, spriteCollection);
 
-            lenAttackCounter += 1;
-
-            if (lenAttackCounter == punchSprites.Length - 1)
-            {
-                isAttacking = false;
-
-                lenAttackCounter = 0;
-            }
-
-        }
 
         if (playerMovement.running)
         {
-            sprites = walkSprites;
+            sprites = spriteCollection.walk;
         }
 
-        print(playerMovement.grounded);
         if (!playerMovement.grounded)
         {
-            sprites = jumpSprites;
+            sprites = spriteCollection.jump;
         }
 
         frame++;
@@ -107,4 +100,29 @@ public class AnimatedSprite : MonoBehaviour
 
         }
     }
+
+    private void AttackAnimation(ref Sprite[] sprites, SpriteCollection spriteCollection)
+    {
+        if (playerMovement.attack && !isAttacking)
+        {
+            isAttacking = true;
+        }
+
+        if (isAttacking)
+        {
+            sprites = spriteCollection.attack;
+
+            spriteRenderer.sprite = sprites[lenAttackCounter];
+
+            lenAttackCounter += 1;
+
+            if (lenAttackCounter == sprites.Length - 1)
+            {
+                isAttacking = false;
+
+                lenAttackCounter = 0;
+            }
+        }
+    }
+
 }

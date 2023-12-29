@@ -1,4 +1,5 @@
 using System;
+using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public bool jumping { get; private set; }
     public bool attack { get; private set; }
 
+    public bool crouched { get; private set; }
 
     public bool sliding => (frameInput.Move.x > 0f && frameVelocity.x < 0f) || (frameInput.Move.x < 0f && frameVelocity.x > 0f);
     public bool running => Mathf.Abs(frameVelocity.x) > 0.25f || Mathf.Abs(frameInput.Move.x) > 0.25f;
@@ -61,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GatherInput()
     {
-
+        // Only interested in the sign of the input (h>0 --> up move)
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
         horizontalInput = horizontalInput != 0 ? Math.Sign(horizontalInput) : 0;
@@ -73,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
             JumpHeld = Input.GetButton("Jump"),
 
             Move = new Vector2(horizontalInput, verticalInput),
+            Crouch = verticalInput < 0,
             Attack = Input.GetKey(KeyCode.C),
             ChangeWeapon = Input.GetKeyDown(KeyCode.X)
         };
@@ -92,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         HandleJump();
         HandleDirection();
         HandleGravity();
+        HandleCrouch();
 
         ApplyMovement();
 
@@ -140,6 +144,20 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #region Crouch
+    private void HandleCrouch()
+    {
+        if (frameInput.Crouch)
+        {
+            crouched = true;
+        }
+        else
+        {
+            crouched = false;
+        }
+    }
+    #endregion
+
     #region Jumping
 
     private bool jumpToConsume;
@@ -147,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
     private bool endedJumpEarly;
     private bool coyoteUsable;
     private float timeJumpWasPressed;
-
 
     private bool HasBufferedJump => bufferedJumpUsable && time < timeJumpWasPressed + playerStats.JumpBuffer;
     private bool CanUseCoyote => coyoteUsable && !grounded && time < frameLeftGrounded + playerStats.CoyoteTime;
@@ -222,10 +239,6 @@ public class PlayerMovement : MonoBehaviour
             attack = true;
 
         }
-        else
-        {
-            attack = false;
-        }
     }
 
     private void ChangeWeapon()
@@ -248,6 +261,8 @@ public class PlayerMovement : MonoBehaviour
         public Vector2 Move;
         public bool Attack;
         public bool ChangeWeapon;
+
+        public bool Crouch;
     }
 
 }

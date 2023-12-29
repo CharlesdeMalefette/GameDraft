@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public bool dead => deathAnimation.enabled;
 
     // Equipment
-    public GameObject weaponHolder;
+    //public GameObject weaponHolder;
 
     // HUD
     public GameObject interactNotification;
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
         //Equipement & Fight
         //interactNotification = transform.Find("InteractNotification").gameObject;
-        ownWeapon = false;
+        ownWeapon = true;
         //weaponHolder = transform.Find("WeaponHolder").gameObject;
         nextAttackTime = Time.time;
     }
@@ -79,26 +79,26 @@ public class Player : MonoBehaviour
     {
         ownWeapon = true;
         hasWeaponInHand = true;
-        weaponHolder.SetActive(true);
+        //weaponHolder.SetActive(true);
     }
 
     public void EquipWeapon()
     {
         hasWeaponInHand = true;
-        weaponHolder.SetActive(true);
+        //weaponHolder.SetActive(true);
     }
 
     public void DesequipWeapon()
     {
         hasWeaponInHand = false;
-        weaponHolder.SetActive(false);
+        //weaponHolder.SetActive(false);
     }
 
     public void Attack()
     {
         if (hasWeaponInHand)
         {
-            WeaponAttack();
+            //WeaponAttack();
         }
         else
         {
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
 
     public void WeaponAttack()
     {
-        weaponHolder.GetComponent<Weapon>().Attack();
+        //weaponHolder.GetComponent<Weapon>().Attack();
     }
 
     public void FistAttack()
