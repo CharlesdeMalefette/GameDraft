@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,8 +29,10 @@ public class AnimatedSprite : MonoBehaviour
     private Player player;
     private int frame;
     private bool isAttacking = false;
+    private bool isCrouched = false;
 
     int lenAttackCounter = 0;
+    int lenCrounch = 0;
 
     private Rigidbody2D _rigidbody;
 
@@ -67,6 +70,24 @@ public class AnimatedSprite : MonoBehaviour
 
         AttackAnimation(ref sprites, spriteCollection);
 
+        if (playerMovement.crouched)
+        {
+            sprites = spriteCollection.crouch;
+            if (!isCrouched)
+            {
+                isCrouched = true;
+                spriteRenderer.sprite = sprites[0];
+            }
+            else
+            {
+                spriteRenderer.sprite = sprites[1];
+            }
+            return;
+        }
+        else
+        {
+            isCrouched = false;
+        }
 
         if (playerMovement.running)
         {
