@@ -32,7 +32,6 @@ public class AnimatedSprite : MonoBehaviour
     private bool isCrouched = false;
 
     int lenAttackCounter = 0;
-    int lenCrounch = 0;
 
     private Rigidbody2D _rigidbody;
 
@@ -73,6 +72,7 @@ public class AnimatedSprite : MonoBehaviour
         if (playerMovement.crouched)
         {
             sprites = spriteCollection.crouch;
+
             if (!isCrouched)
             {
                 isCrouched = true;
@@ -143,6 +143,30 @@ public class AnimatedSprite : MonoBehaviour
 
                 lenAttackCounter = 0;
             }
+            return;
+        }
+    }
+
+    private void CrouchAnimation(ref Sprite[] sprites, SpriteCollection spriteCollection)
+    {
+        if (playerMovement.crouched)
+        {
+            sprites = spriteCollection.crouch;
+
+            if (!isCrouched)
+            {
+                isCrouched = true;
+                spriteRenderer.sprite = sprites[0];
+            }
+            else
+            {
+                spriteRenderer.sprite = sprites[1];
+            }
+            return;
+        }
+        else
+        {
+            isCrouched = false;
         }
     }
 
