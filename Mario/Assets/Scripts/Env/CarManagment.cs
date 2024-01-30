@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Threading;
 
-public class BackgroundManagment : MonoBehaviour
+public class CarManagment : MonoBehaviour
 {
 
     public GameObject citroen;
@@ -12,11 +12,11 @@ public class BackgroundManagment : MonoBehaviour
 
     public new Camera camera;
 
-    public float deltaSpawnTime;
+    public float deltaSpawnTime = 3.0f;
 
     private Vector3 cameraPosition;
     private float cameraWidth;
-    private Vector3 spawnOffset;
+    private float carLevel = -0.75f;
     private float nextSpawnTime;
     private System.Random random;
 
@@ -24,7 +24,6 @@ public class BackgroundManagment : MonoBehaviour
     {
         cameraPosition = camera.transform.position;
         cameraWidth = camera.orthographicSize * camera.aspect;
-        spawnOffset = new Vector3(2.0f, -3.1f);
         nextSpawnTime = Time.time + deltaSpawnTime;
         random = new System.Random();
     }
@@ -37,19 +36,13 @@ public class BackgroundManagment : MonoBehaviour
             cameraPosition = camera.transform.position;
             if (car == 0)
             {
-                spawnOffset.x = -2.0f;
-                Vector3 carPosition = cameraPosition + spawnOffset;
-                carPosition.x -= cameraWidth;
-                carPosition.z = 0;
+                Vector3 carPosition = new Vector3(cameraPosition.x - 2.0f - cameraWidth, carLevel - 0.75f, 0.0f);
                 GameObject citroenInstance = Instantiate(citroen, carPosition, Quaternion.identity);
                 Destroy(citroenInstance, 5.0f);
             }
             else
             {
-                spawnOffset.x = 2.0f;
-                Vector3 carPosition = cameraPosition + spawnOffset;
-                carPosition.x += cameraWidth;
-                carPosition.z = 0;
+                Vector3 carPosition = new Vector3(cameraPosition.x + 2.0f + cameraWidth, carLevel + 0.75f, 0.0f);
                 GameObject renaultInstance = Instantiate(renault, carPosition, Quaternion.identity);
                 Destroy(renaultInstance, 5.0f);
             }

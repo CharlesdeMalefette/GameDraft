@@ -14,12 +14,15 @@ public class SideScrolling : MonoBehaviour
 
 
     private float initialPositionX;
+    private float cameraHeight;
+    public float epsilon;
 
     private void Awake()
     {
         camera = GetComponent<Camera>();
         player = GameObject.FindWithTag("Player").transform;
         initialPositionX = transform.position.x;
+        cameraHeight = camera.orthographicSize;
     }
 
     private void LateUpdate()
@@ -32,7 +35,23 @@ public class SideScrolling : MonoBehaviour
     {
         //DEBUG double assignation?
         Vector3 cameraPosition = transform.position;
-        cameraPosition.x = absoluteFollow ? player.position.x : math.max(player.position.x, initialPositionX);
+        if (absoluteFollow)
+        {
+            cameraPosition.x = player.position.x;
+            cameraPosition.y = player.position.y;
+        }
+        else
+        {
+            cameraPosition.x = math.max(player.position.x, initialPositionX);
+            if (player.position.y > cameraPosition.y + cameraHeight - epsilon)
+            {
+                cameraPosition.y = player.position.y - cameraHeight + epsilon;
+            }
+            else if (player.position.y < cameraPosition.y - cameraHeight + epsilon)
+            {
+                cameraPosition.y = player.position.y + cameraHeight - epsilon;
+            }
+        }
         transform.position = cameraPosition;
     }
 

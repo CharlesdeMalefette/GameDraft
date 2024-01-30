@@ -118,10 +118,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Ground and Ceiling
         bool groundHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, CapsuleDirection2D.Vertical, 0, Vector2.down, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
-        bool ceilingHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, CapsuleDirection2D.Vertical, 0, Vector2.up, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
-
-        // Hit a Ceiling
-        if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);
 
         // Landed on the Ground
         if (!grounded && groundHit)

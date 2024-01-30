@@ -12,7 +12,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - PowerUp
+  - InteractiveObject
   - Ennemy
   - Background
   - 
@@ -51,7 +51,7 @@ TagManager:
   - name: Player
     uniqueID: 3322483949
     locked: 0
-  - name: Street
+  - name: Road
     uniqueID: 821344975
     locked: 0
   - name: Foreground

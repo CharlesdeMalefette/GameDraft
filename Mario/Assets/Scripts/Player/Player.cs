@@ -6,14 +6,13 @@ public class Player : MonoBehaviour
 {
 
     // Sprites
-    public PlayerSpriteRenderer smallRenderer;
+
 
     // Animation
-    private DeathAnimation deathAnimation;
 
     // Life
     public float HP = 5;
-    public bool dead => deathAnimation.enabled;
+    public bool dead = false;
 
     // Equipment
     //public GameObject weaponHolder;
@@ -23,7 +22,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        deathAnimation = GetComponent<DeathAnimation>();
+
 
         //Equipement & Fight
         //interactNotification = transform.Find("InteractNotification").gameObject;
@@ -36,7 +35,8 @@ public class Player : MonoBehaviour
     {
         if (!dead && HP == 0)
         {
-            Death();
+            //Death();
+            Debug.Log("Mort");
         }
         else
         {
@@ -46,10 +46,7 @@ public class Player : MonoBehaviour
 
     private void Death()
     {
-        smallRenderer.enabled = false;
-        deathAnimation.enabled = true;
-
-        GameManager.Instance.ResetLevel(3f);
+        //GameManager.Instance.ResetLevel(3f);
     }
 
     public void notifyPlayer()
