@@ -17,8 +17,7 @@ public class EnemyBullet : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
 
-        Vector3 direction = player.transform.position - transform.position;
-        rb.velocity = new Vector2(direction.x, direction.y).normalized * force;
+        rb.velocity = Vector2.left * force;
     }
 
     // Update is called once per frame
@@ -32,9 +31,10 @@ public class EnemyBullet : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        Player player = other.GetComponent<Player>();
+        print(other.gameObject.name);
+        Player player = other.gameObject.GetComponent<Player>();
         if (other.gameObject.layer == 0 || other.gameObject.layer == 3)
         {
             Destroy(gameObject);

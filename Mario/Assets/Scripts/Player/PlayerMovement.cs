@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private Player player;
     // Components
     private new Rigidbody2D rigidbody;
-    private new CapsuleCollider2D collider;
+    private new BoxCollider2D collider;
 
     // Stats
     [SerializeField] private PlayerStats playerStats;
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<CapsuleCollider2D>();
+        collider = GetComponent<BoxCollider2D>();
         player = GetComponent<Player>();
 
         cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
@@ -117,8 +117,8 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.queriesStartInColliders = false;
 
         // Ground and Ceiling
-        bool groundHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.down, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
-        bool ceilingHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, collider.direction, 0, Vector2.up, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
+        bool groundHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, CapsuleDirection2D.Vertical, 0, Vector2.down, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
+        bool ceilingHit = Physics2D.CapsuleCast(collider.bounds.center, collider.size, CapsuleDirection2D.Vertical, 0, Vector2.up, playerStats.GrounderDistance, ~playerStats.PlayerLayer);
 
         // Hit a Ceiling
         if (ceilingHit) frameVelocity.y = Mathf.Min(0, frameVelocity.y);

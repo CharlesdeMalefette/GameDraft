@@ -28,7 +28,7 @@ public class EnemyShooting : MonoBehaviour
             if (timer > 2)
             {
                 timer = 0;
-                //Shoot();
+                Shoot();
             }
         }
 
@@ -38,6 +38,5 @@ public class EnemyShooting : MonoBehaviour
     void Shoot()
     {
         Instantiate(bullet, bulletPos.position, Quaternion.identity);
-
     }
 }
