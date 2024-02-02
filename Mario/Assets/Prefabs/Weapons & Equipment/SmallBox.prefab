@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6691076501558994017}
   - component: {fileID: 7983440764249220366}
   m_Layer: 0
-  m_Name: Caisse
+  m_Name: SmallBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,8 +29,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -38.3273, y: 0.5949, z: -2.38}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.56, y: 0.56, z: 0.56}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4648901037973716614}
   m_Father: {fileID: 0}
@@ -74,14 +74,14 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1834386485
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: -30
-  m_Sprite: {fileID: 21300000, guid: 865248b13d3ec41d290c14951835b9c7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f6585490777ab43e3b6f6145d94c1364, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.84, y: 2.88}
+  m_Size: {x: 4.39, y: 1.88}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -123,14 +123,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.993007, y: 1.006993}
-    newSize: {x: 2.84, y: 2.88}
+    oldSize: {x: 4.39, y: 1.88}
+    newSize: {x: 4.39, y: 1.88}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4.36, y: 1.87}
   m_EdgeRadius: 0
 --- !u!114 &7983440764249220366
 MonoBehaviour:
@@ -145,7 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 3219158652894955109, guid: 6622648454f0b427db6de572be05acaf, type: 3}
-  interactive: 0
+  itemPickUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &5064718195574030039
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -232,7 +234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5334378188056329386, guid: 4f25613456c604e3fbc3660a03fc141c, type: 3}
       propertyPath: m_Radius
-      value: 1.14
+      value: 2.22
       objectReference: {fileID: 0}
     - target: {fileID: 5334378188056329386, guid: 4f25613456c604e3fbc3660a03fc141c, type: 3}
       propertyPath: m_Offset.x
