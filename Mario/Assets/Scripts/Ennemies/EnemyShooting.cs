@@ -12,6 +12,7 @@ public class EnemyShooting : MonoBehaviour
 
     private GameObject player;
     private SpriteRenderer spriteRenderer;
+    private bool isVisible;
 
 
     // Start is called before the first frame update
@@ -20,14 +21,13 @@ public class EnemyShooting : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         spriteRenderer = GetComponent<SpriteRenderer>();
         idle = spriteRenderer.sprite;
+        isVisible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, player.transform.position);
-
-        if (distance < 30)
+        if (isVisible)
         {
 
             timer += Time.deltaTime;
@@ -49,5 +49,15 @@ public class EnemyShooting : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         spriteRenderer.sprite = idle;
+    }
+
+    private void OnBecameVisible()
+    {
+        isVisible = true;
+    }
+
+    private void OnBecameInvisible()
+    {
+        isVisible = false;
     }
 }
