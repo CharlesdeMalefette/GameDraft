@@ -33,7 +33,6 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        print(other.gameObject.name);
         Player player = other.gameObject.GetComponent<Player>();
         if (other.gameObject.layer == 0 || other.gameObject.layer == 3)
         {
