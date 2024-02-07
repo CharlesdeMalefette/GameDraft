@@ -10,10 +10,19 @@ public class AmmoCrate : MonoBehaviour
 
     public UnityEvent itemPickUp;
 
+    public Sprite openBox;
 
     // Private attributes
     private bool isFull = true;
 
+    private SpriteRenderer spriteRenderer;
+
+
+
+    public void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     public void OpenAmmoCrate()
     {
         if (isFull && item != null)
@@ -21,6 +30,8 @@ public class AmmoCrate : MonoBehaviour
             Instantiate(item, transform.position, Quaternion.identity);
             itemPickUp.Invoke();
             isFull = false;
+            spriteRenderer.sprite = openBox;
+
         }
     }
 }
