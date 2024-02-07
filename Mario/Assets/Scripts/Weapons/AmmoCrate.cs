@@ -14,15 +14,14 @@ public class AmmoCrate : MonoBehaviour
 
     // Private attributes
     private bool isFull = true;
-
     private SpriteRenderer spriteRenderer;
-
-
 
     public void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+
     public void OpenAmmoCrate()
     {
         if (isFull && item != null)

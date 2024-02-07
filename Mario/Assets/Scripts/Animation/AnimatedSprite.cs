@@ -109,15 +109,15 @@ public class AnimatedSprite : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[frame];
 
-            if (Math.Abs(_rigidbody.velocity.x) < 0.001f)
-            {
-                spriteRenderer.flipX = flip;
-            }
-            else
-            {
-                flip = _rigidbody.velocity.x < 0;
-                spriteRenderer.flipX = flip;
-            }
+            // if (Math.Abs(_rigidbody.velocity.x) < 0.001f)
+            // {
+            //     spriteRenderer.flipX = flip;
+            // }
+            // else
+            // {
+            //     flip = _rigidbody.velocity.x < 0;
+            //     spriteRenderer.flipX = flip;
+            // }
 
         }
     }

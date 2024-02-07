@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2233609259138396531}
   - component: {fileID: 4325851573553884009}
   - component: {fileID: 6691076501558994017}
+  - component: {fileID: 3686381393250152635}
   - component: {fileID: 7983440764249220366}
   m_Layer: 0
   m_Name: LargeBox
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1834386485
   m_SortingLayer: -4
-  m_SortingOrder: -30
+  m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: f6585490777ab43e3b6f6145d94c1364, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -132,6 +133,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.36, y: 1.58}
   m_EdgeRadius: 0
+--- !u!50 &3686381393250152635
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387143487656773027}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 5
 --- !u!114 &7983440764249220366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +175,19 @@ MonoBehaviour:
   item: {fileID: 3219158652894955109, guid: 6622648454f0b427db6de572be05acaf, type: 3}
   itemPickUp:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: PickUpWeapon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   openBox: {fileID: 21300000, guid: 5ad2f86e07092473b99278f298d08dff, type: 3}
 --- !u!1001 &5064718195574030039
 PrefabInstance:

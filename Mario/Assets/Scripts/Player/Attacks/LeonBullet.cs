@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+public class LeonBullet : MonoBehaviour
 {
-
-    private GameObject player;
     private Rigidbody2D rb;
     public float force = 10.0f;
 
@@ -14,10 +12,11 @@ public class EnemyBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        print("heyr");
+        print(transform.rotation);
         rb = GetComponent<Rigidbody2D>();
 
-        rb.velocity = Vector2.left * force;
+        rb.velocity = (transform.rotation.y * Vector2.left + transform.rotation.w * Vector2.right) * force;
     }
 
     // Update is called once per frame
@@ -33,14 +32,6 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Player player = other.gameObject.GetComponent<Player>();
-        if (other.gameObject.layer == 0 || other.gameObject.layer == 3)
-        {
-            Destroy(gameObject);
-            if (other.gameObject.CompareTag("Player"))
-            {
-                player.Hit();
-            }
-        }
+        //print(other);
     }
 }

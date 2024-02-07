@@ -1,18 +1,16 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Playables;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-
-    // Sprites
-
-
-    // Animation
-
     // Life
     public float HP = 5;
-    public bool dead = false;
+    public UnityEvent hit;
+    public UnityEvent death;
+    public UnityEvent switchWeapon;
+    private bool dead = false;
 
     // Equipment
     //public GameObject weaponHolder;
@@ -23,23 +21,27 @@ public class Player : MonoBehaviour
     private void Awake()
     {
 
-
         //Equipement & Fight
         //interactNotification = transform.Find("InteractNotification").gameObject;
-        ownWeapon = true;
+        ownWeapon = false;
         //weaponHolder = transform.Find("WeaponHolder").gameObject;
-        nextAttackTime = Time.time;
+        nextAttackFistTime = Time.time;
+        nextAttackRifleTime = Time.time;
+        bulletPos = transform.Find("BulletPos");
     }
+
+    #region Health
 
     public void Hit()
     {
         if (!dead && HP == 0)
         {
-            //Death();
             Debug.Log("Mort");
+            death.Invoke();
         }
         else
         {
+            hit.Invoke();
             HP--;
         }
     }
@@ -49,6 +51,9 @@ public class Player : MonoBehaviour
         //GameManager.Instance.ResetLevel(3f);
     }
 
+    #endregion
+
+    #region UI
     public void notifyPlayer()
     {
         interactNotification.SetActive(true);
@@ -58,44 +63,53 @@ public class Player : MonoBehaviour
         interactNotification.SetActive(false);
     }
 
+    #endregion
+
     #region Equipment & Fight
 
     // Weapon
     public bool ownWeapon;
     public bool hasWeaponInHand;
+    public Transform bulletPos;
+    public GameObject bullet;
 
     // Fistfight
     public Transform attackPoint;
+
     public float attackRange;
     public LayerMask ennemyLayer;
     public float fistDamage;
-    public float attackRate;
-    private float nextAttackTime;
+    public float attackFistRate;
+    private float nextAttackFistTime;
+
+    // Rifle
+    public float attackRifleRate;
+    private float nextAttackRifleTime;
 
     public void PickUpWeapon()
     {
         ownWeapon = true;
         hasWeaponInHand = true;
-        //weaponHolder.SetActive(true);
+        switchWeapon.Invoke();
     }
 
     public void EquipWeapon()
     {
         hasWeaponInHand = true;
-        //weaponHolder.SetActive(true);
+        switchWeapon.Invoke();
     }
 
     public void DesequipWeapon()
     {
         hasWeaponInHand = false;
-        //weaponHolder.SetActive(false);
+        switchWeapon.Invoke();
     }
 
     public void Attack()
     {
         if (hasWeaponInHand)
         {
-            //WeaponAttack();
+            WeaponAttack();
         }
         else
         {
@@ -105,14 +119,18 @@ public class Player : MonoBehaviour
 
     public void WeaponAttack()
     {
-        //weaponHolder.GetComponent<Weapon>().Attack();
+        if (Time.time > nextAttackRifleTime)
+        {
+            nextAttackRifleTime = Time.time + 1 / attackRifleRate;
+            Instantiate(bullet, bulletPos.position, transform.rotation);
+        }
     }
 
     public void FistAttack()
     {
-        if (Time.time > nextAttackTime)
+        if (Time.time > nextAttackFistTime)
         {
-            nextAttackTime = Time.time + 1 / attackRate;
+            nextAttackFistTime = Time.time + 1 / attackFistRate;
             Collider2D[] ennemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, ennemyLayer);
             foreach (Collider2D col in ennemiesHit)
             {

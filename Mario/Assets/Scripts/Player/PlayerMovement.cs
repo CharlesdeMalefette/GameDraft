@@ -202,6 +202,14 @@ public class PlayerMovement : MonoBehaviour
         {
             frameVelocity.x = Mathf.MoveTowards(frameVelocity.x, frameInput.Move.x * playerStats.MaxSpeed, playerStats.Acceleration * Time.fixedDeltaTime);
         }
+        if (frameVelocity.x < -0.001f)
+        {
+            transform.rotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+        }
+        else if (frameVelocity.x > 0.001f)
+        {
+            transform.rotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+        }
     }
 
     #endregion
@@ -233,7 +241,6 @@ public class PlayerMovement : MonoBehaviour
         {
             player.Attack();
             attack = true;
-
         }
     }
 
@@ -260,5 +267,4 @@ public class PlayerMovement : MonoBehaviour
 
         public bool Crouch;
     }
-
 }
