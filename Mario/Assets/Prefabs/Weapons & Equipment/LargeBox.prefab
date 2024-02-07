@@ -76,13 +76,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1834386485
   m_SortingLayer: -4
-<<<<<<< HEAD:Mario/Assets/Prefabs/Weapons & Equipment/Caisse.prefab
   m_SortingOrder: 30
   m_Sprite: {fileID: 21300000, guid: 865248b13d3ec41d290c14951835b9c7, type: 3}
-=======
-  m_SortingOrder: -30
-  m_Sprite: {fileID: 21300000, guid: f6585490777ab43e3b6f6145d94c1364, type: 3}
->>>>>>> main:Mario/Assets/Prefabs/Weapons & Equipment/LargeBox.prefab
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -180,7 +175,6 @@ MonoBehaviour:
   item: {fileID: 3219158652894955109, guid: 6622648454f0b427db6de572be05acaf, type: 3}
   itemPickUp:
     m_PersistentCalls:
-<<<<<<< HEAD:Mario/Assets/Prefabs/Weapons & Equipment/Caisse.prefab
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
@@ -194,10 +188,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-=======
-      m_Calls: []
-  openBox: {fileID: 21300000, guid: 5ad2f86e07092473b99278f298d08dff, type: 3}
->>>>>>> main:Mario/Assets/Prefabs/Weapons & Equipment/LargeBox.prefab
 --- !u!1001 &5064718195574030039
 PrefabInstance:
   m_ObjectHideFlags: 0
