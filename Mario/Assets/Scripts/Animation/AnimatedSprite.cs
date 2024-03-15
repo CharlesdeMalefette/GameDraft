@@ -66,7 +66,6 @@ public class AnimatedSprite : MonoBehaviour
         }
 
         Sprite[] sprites = spriteCollection.idle;
-
         AttackAnimation(ref sprites, spriteCollection);
 
         if (playerMovement.crouched)
