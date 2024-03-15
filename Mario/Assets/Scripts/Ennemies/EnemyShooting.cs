@@ -32,7 +32,7 @@ public class EnemyShooting : MonoBehaviour
 
             timer += Time.deltaTime;
 
-            if (timer > 2)
+            if (timer > 4)
             {
                 timer = 0;
                 StartCoroutine(Shoot());
