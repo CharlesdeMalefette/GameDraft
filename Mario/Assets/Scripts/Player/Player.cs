@@ -1,16 +1,18 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Playables;
-using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
+
+    // Sprites
+
+
+    // Animation
+
     // Life
     public float HP = 5;
-    public UnityEvent hit;
-    public UnityEvent death;
-    public UnityEvent switchWeapon;
-    private bool dead = false;
+    public bool dead = false;
 
     // Equipment
     //public GameObject weaponHolder;
@@ -37,11 +39,9 @@ public class Player : MonoBehaviour
         if (!dead && HP == 0)
         {
             Debug.Log("Mort");
-            death.Invoke();
         }
         else
         {
-            hit.Invoke();
             HP--;
         }
     }
@@ -90,19 +90,19 @@ public class Player : MonoBehaviour
     {
         ownWeapon = true;
         hasWeaponInHand = true;
-        switchWeapon.Invoke();
+        //weaponHolder.SetActive(true);
     }
 
     public void EquipWeapon()
     {
         hasWeaponInHand = true;
-        switchWeapon.Invoke();
+        //weaponHolder.SetActive(true);
     }
 
     public void DesequipWeapon()
     {
         hasWeaponInHand = false;
-        switchWeapon.Invoke();
+        //weaponHolder.SetActive(false);
     }
 
     public void Attack()
